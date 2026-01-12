@@ -2,7 +2,7 @@
 
 ## FastAPI
 
-### 엔드포인트: POST /embed (또는 /emb)
+### 엔드포인트: POST /embed
 
 ### 입력: {"base64_image": "문자열"} 형식의 JSON
 
