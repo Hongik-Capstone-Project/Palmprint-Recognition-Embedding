@@ -251,7 +251,7 @@ class ccnet(torch.nn.Module):
     https://ieeexplore.ieee.org/document/9512475
     '''
 
-    def __init__(self, num_classes,weight): # 디폴트 1 이미지로 수정 
+    def __init__(self, num_classes,weight):
         super(ccnet, self).__init__()
 
         self.num_classes = num_classes
@@ -267,39 +267,36 @@ class ccnet(torch.nn.Module):
         self.arclayer_ = ArcMarginProduct(2048, num_classes, s=30, m=0.5, easy_margin=False)
 
     def forward(self, x, y=None):
-        x1 = self.cb1(x)
-        x2 = self.cb2(x)
-        x3 = self.cb3(x)
+        cb1_out = self.cb1(x)
+        cb2_out = self.cb2(x)
+        cb3_out = self.cb3(x)
 
-        x = torch.cat((x1, x2, x3), dim=1)
+        x_concat = torch.cat((cb1_out, cb2_out, cb3_out), dim=1)
 
-        x1 = self.fc(x)
-        x = self.fc1(x1)
-        fe = torch.cat((x1,x),dim=1)
-        x = self.drop(x)
-        x = self.arclayer_(x, y)
+        fc_out = self.fc(x_concat)
+        fc1_out = self.fc1(fc_out)
+        fe = torch.cat((fc_out, fc1_out), dim=1)
 
-        return x, F.normalize(fe, dim=-1)
+        logits = self.drop(fc1_out)
+        logits = self.arclayer_(logits, y)
+
+        return logits, F.normalize(fe, dim=-1)
 
     def getFeatureCode(self, x):
         x1 = self.cb1(x)
         x2 = self.cb2(x)
         x3 = self.cb3(x)
 
-        x1 = x1.view(x1.shape[0], -1)
-        x2 = x2.view(x2.shape[0], -1)
-        x3 = x3.view(x3.shape[0], -1)
         x = torch.cat((x1, x2, x3), dim=1)
 
-        x = self.fc(x)
-        x = self.fc1(x)
-        x = x / torch.norm(x, p=2, dim=1, keepdim=True)
+        fc_out = self.fc(x)
+        fc1_out = self.fc1(fc_out)
+        fe = torch.cat((fc_out, fc1_out), dim=1)
 
-        return x
+        return F.normalize(fe, dim=-1)
 
 
 if __name__== "__main__" :
     inp = torch.randn(256,1,128,128)
     net = ccnet(600,weight=0.8)
     out = net(inp)
-
