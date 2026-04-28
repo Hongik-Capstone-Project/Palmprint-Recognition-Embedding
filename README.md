@@ -8,7 +8,9 @@
 
 ### 출력: 임베딩(List)
 
-### Weights 
-https://drive.google.com/drive/folders/1SWsc8dbo7axiGeIuh3Y2Zw_JEV6sqLrT?usp=share_link 
+### Weights
 
-models 안에 net_params.pth 가중치 넣어서 사용하시면 됩니다!
+https://drive.google.com/drive/folders/1SWsc8dbo7axiGeIuh3Y2Zw_JEV6sqLrT?usp=share_link
+
+- models 안에 net_params.pth 가중치 넣어서 사용
+- 04/28 : ROI code added, model param modified

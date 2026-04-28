@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 from contextlib import asynccontextmanager
 
+import uvicorn
+
 import cv2
 import numpy as np
 import torch
@@ -116,3 +118,8 @@ def get_embedding(request: PalmRequest):
 @app.get("/health")
 def health_check():
     return {"status": "ok", "device": DEVICE}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
