@@ -10,7 +10,7 @@
 
 ### Weights
 
-https://drive.google.com/drive/folders/1SWsc8dbo7axiGeIuh3Y2Zw_JEV6sqLrT?usp=share_link
+https://drive.google.com/drive/folders/1Fjo1maKzB7LJYKuNSHg6rhIgJIQma86F?usp=sharing
 
 - models 안에 net_params.pth 가중치 넣어서 사용
 - 04/28 : ROI code added, model param modified
